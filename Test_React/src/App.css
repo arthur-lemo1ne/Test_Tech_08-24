@@ -13,6 +13,7 @@
 
 body{
   background: #383089;
+  width: 100%;
 }
 
 .header{
@@ -32,3 +33,7 @@ body{
   color: #fff;
 }
 
+.content {
+  width: 100%;
+  padding-top: 70px;
+}

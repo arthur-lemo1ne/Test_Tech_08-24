@@ -6,22 +6,28 @@ import CountryTable from "./Components/CountryTable";
 function App() {
 
   const [countries, setCountries] = useState([]);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState();
   const [searchInput, setSearchInput] = useState('');
+  const [totalItems, setTotalItems] = useState(Number);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("https://restcountries.com/v3.1/all");
-        const totalItems = response.data.length;
+        setTotalItems(response.data.length);
         setCountries(response.data);
-        setContent(countries[4].name.common as string)
+        console.log(countries);
+        setContent(CountryTable(countries));
       } catch (error) {
         console.log("Error is", error);
       }
     }
+
     fetchData()
-  })
+
+
+  }, [totalItems])
+
 
   return (
     <>
@@ -30,13 +36,8 @@ function App() {
           <h5>L'encyclopédie des pays</h5>
         </div>
       </div>
-      <div className="container">
-        {
-          
-            content
-        
-        }
-        {/*<CountryTable country={countries}/>*/}
+      <div className="content">
+        {content}
       </div>
     </>
   );

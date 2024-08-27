@@ -1,19 +1,18 @@
-const CountryTable = ({country}) => {
+const CountryTable = (country: any[]) => {
 
     const TableData = country.map((c) => (
         <tr>
             <td>
                 <img src={c.flags.png ? c.flags.png : "Pas d'image"}></img>
             </td>
+            <td>{c.translations.fra.common}</td>
             <td>{c.name.common}</td>
-            <td>{c.nativeName}</td>
-            <td>{c.capital || "N/A"}</td>
+            <td>{c.capital}</td>
             <td>{c.continents}</td>
-            <td>{c.languages}</td>
-            <td>{c.currencies}</td>
-            <td>{"N/A"}</td>
-            <td>{c.name.common}</td>
-            <td>{c.demonym}</td>
+            <td>{c.capital}</td>
+            <td>{c.capital}</td>
+            <td>{c.capital}</td>
+            <td>{c.capital}</td>
         </tr>
     ))
 
@@ -32,7 +31,7 @@ const CountryTable = ({country}) => {
                         <th>Langue</th>
                         <th>Nom de la monnaie</th>
                         <th>Symbole de la monnaie</th>
-                        <th>Nom de la popupalation</th>
+                        <th>Nom de la population</th>
                     </tr>
                 </thead>
                 <tbody>
