@@ -47,7 +47,7 @@ function App() {
                     <img src={data[i].flags.png ? data[i].flags.png : "Pas d'image"}></img>
                 </td>
                 <td>{data[i].translations.fra.common}</td>
-                <td>{data[i].name.common}</td>
+                <td>{data[i].name.hasOwnProperty('nativeName') ? data[i].name.nativeName[Object.getOwnPropertyNames(data[i].name.nativeName)[0]].common : "N/A"}</td>
                 <td>{data[i].capital}</td>
                 <td>{data[i].continents}</td>
                 <td>{
