@@ -9,7 +9,7 @@ const CountryTable = (country: any[]) => {
             <td>{c.name.common}</td>
             <td>{c.capital}</td>
             <td>{c.continents}</td>
-            <td>{c.capital}</td>
+            <td>{c.currencies[Object.keys(c.currencies)].name}</td>
             <td>{c.capital}</td>
             <td>{c.capital}</td>
             <td>{c.capital}</td>
