@@ -1,21 +1,15 @@
-import { useEffect, useState } from "react";
-import "./App.css"
-import SearchInput from "./Components/SearchInput";
+import React, { useEffect, useState } from "react";
 
-import axios, { Axios } from "axios";
+import SearchInput from "./SearchInput";
 
-function App() {
 
-  const [countries, setCountries] = useState([]);
+const API = () => {
+    const [countries, setCountries] = useState([]);
   const [content, setContent] = useState(<></>);
   const [totalItems, setTotalItems] = useState(Number);
-  const [Cards, SetCards] = useState(Boolean);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [Search, setSearch] = useState();
-  const [SearchName, setSearchName] = useState();
 
-  
 
   const getAllCountries = async () => {
     try {
@@ -26,14 +20,9 @@ function App() {
 
         const data = await res.json()
 
-        console.log("--");
-        console.log(res.status);
-        console.log("--");
-
         setCountries(data);
         setTotalItems(data.length);
         setIsLoading(false);
-        Refresh();
     } catch (error:any) {
         setIsLoading(false);
         setError(error.message);
@@ -43,24 +32,11 @@ function App() {
 
   const getCountryByName = async (countryName:string) => {
     try {
-
-      let URL = "";
-
-      if(!countryName)
-      {
-        URL= `https://restcountries.com/v3.1/all`
-      }
-      else
-      {
-        URL=`https://restcountries.com/v3.1/name/${countryName}`
-      }
-
-      const res = await fetch(URL)
+      const res = await fetch(`https://restcountries.com/v3.1/name/${countryName}`)
 
       if(!res.ok) throw new Error("Erreur d'URL")
 
       const data = await res.json()
-
       setCountries(data);
       setTotalItems(data.length);
       setIsLoading(false);
@@ -73,7 +49,6 @@ function App() {
   }
 
   const Refresh = async ()=>{
-    console.log(isLoading)
     if(isLoading && !error)
       {
         setContent(<h4>Loading.......</h4>)
@@ -84,7 +59,7 @@ function App() {
       }
       else
       {
-        formatData(countries, Cards);
+        formatData(countries, 1);
       }
   }
 
@@ -115,7 +90,16 @@ function App() {
       }
 
       setContent(
-        <>{d}</>
+        <div className="all_country_wrapper">
+          <div className="country_top">
+            <div className="search">
+              <SearchInput onSearch={getCountryByName}/>
+            </div>
+          </div>
+          <div className="country_bottom">
+            {d}
+          </div>
+        </div>
       )
     }
     else
@@ -145,6 +129,13 @@ function App() {
       
 
       setContent(
+        <div>
+          <div className="country_top">
+          <div className="search">
+            <SearchInput onSearch={getCountryByName}/>
+          </div>
+        </div>
+        <div className="country_bottom">
           <table>
               <thead>
                   <tr>
@@ -163,52 +154,24 @@ function App() {
                   {d}
               </tbody>
             </table>
+          </div>
+        </div>
       )
     }
     
   }
 
-  
-
   useEffect(() => {
+    
+    Refresh();
     getAllCountries();
-  }, [Cards])
+
+    console.log(countries);
+
+  }, [isLoading/*totalItems, Cards*/])
 
 
-  
-
-
-  return (
-    <>
-      <div className="header">
-        <div className="container">
-          <h5>L'encyclopédie des pays</h5>
-          <button id="b1"
-          onClick={()=>SetCards(!Cards)}
-          style={{
-            backgroundColor: "#383089",
-            height: "50px",
-            width: "100px",
-            borderRadius: "10%"
-          }}>
-            {"Cartes"}
-          </button>
-        </div>
-      </div>
-      <div className="content">
-      <div className="all_country_wrapper">
-          <div className="country_top">
-            <div className="search">
-              <SearchInput onSearch={getCountryByName}/>
-            </div>
-          </div>
-          <div className="country_bottom">
-            {content}
-          </div>
-        </div>
-      </div>
-    </>
-  );
+  return content
 }
 
-export default App
+export default API
